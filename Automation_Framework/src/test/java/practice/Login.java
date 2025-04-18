@@ -39,10 +39,6 @@ public class Login {
 	    Cell c=row.getCell(2);
 	    String PRODUCTNAME = c.getStringCellValue();
 	    System.out.println(PRODUCTNAME);
-		
-		
-	
-		
 		WebDriver driver= new EdgeDriver();
 		driver.get(URL);
 		driver.manage().window().maximize();

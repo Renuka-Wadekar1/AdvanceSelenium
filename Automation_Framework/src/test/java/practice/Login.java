@@ -39,6 +39,10 @@ public class Login {
 	    Cell c=row.getCell(2);
 	    String PRODUCTNAME = c.getStringCellValue();
 	    System.out.println(PRODUCTNAME);
+		
+		
+	
+		
 		WebDriver driver= new EdgeDriver();
 		driver.get(URL);
 		driver.manage().window().maximize();
@@ -64,7 +68,7 @@ public class Login {
 			 System.out.println("Fail");
 		 driver.findElement(By.id("react-burger-menu-btn")).click();
 		 driver.findElement(By.id("logout_sidebar_link")).click();
-		 //driver.quit();
+		 driver.quit();
 //		System.out.println(list.get(1).getText());
 //		String actual="1\r\n"
 //				+ "Sauce Labs Backpack\r\n"

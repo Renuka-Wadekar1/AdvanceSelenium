@@ -15,30 +15,33 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
 
+import GenericUtilities.FileUtility;
+import GenericUtilities.JavaUtility;
+import GenericUtilities.SeleniumUtility;
+
 public class AddProductToCart {
+
+	private static final String String = null;
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		//Read common Data
-				FileInputStream fis = new FileInputStream(".\\src\\test\\resources\\CommonData.properties");
-				Properties p = new Properties();
-				p.load(fis);
-				String URL = p.getProperty("url");
-				String USERNAME = p.getProperty("username");
-				String PASSWORD = p.getProperty("password");
+		FileUtility futil= new FileUtility();
+		JavaUtility jutil=new JavaUtility();
+		SeleniumUtility sutil=new SeleniumUtility();
+		
+		//Read data from common data file
+	    String URL = futil.readDataFromPropertyfile("url");
+	    String USERNAME = futil.readDataFromPropertyfile("username");
+	    String PASSWORD = futil.readDataFromPropertyfile("password");
 				
 				//Read Data from excel file
-				FileInputStream fise = new FileInputStream(".\\src\\test\\resources\\Test data.xlsx");
-				Workbook wb = WorkbookFactory.create(fise);
-				Sheet sh = wb.getSheetAt(0);
-				Row rw = sh.getRow(1);
-				Cell cl = rw.getCell(2);
-				String PRODUCTNAME = cl.getStringCellValue();//Run time data
+        String PRODUCTNAME = futil.readDataFromExcel("Product", 1, 2); 
 				
 				//Launch the browser
 				WebDriver driver = new EdgeDriver();
-				driver.manage().window().maximize();
-				driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+				sutil.MaxmiseWindow(driver);
+				sutil.AddImplicitylyWait(driver);
 				
 				//Load the URL
 				driver.get(URL);
@@ -55,6 +58,11 @@ public class AddProductToCart {
 				
 				//Click on add to cart
 				driver.findElement(By.id("add-to-cart")).click();
+				
+			
+				String ScreenshotName = "addProductToCart-"+jutil.getSystemDate();
+				String path=sutil.capturScreenshot(driver, ScreenshotName);
+				System.out.println(path);
 				
 				//Navigate to Cart
 				driver.findElement(By.id("shopping_cart_container")).click();

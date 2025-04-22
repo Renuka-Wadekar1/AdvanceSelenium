@@ -1,9 +1,9 @@
 package GenericUtilities;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -136,7 +136,7 @@ public class SeleniumUtility {
      	  */
          public void Scroll(WebDriver driver, WebElement element){
       	   Actions action =new Actions(driver);
-     		action.scrollToElement(element);
+     		action.scrollToElement(element).perform();;
          }
          /*
        	  * This method perform action doubleclick
@@ -145,27 +145,93 @@ public class SeleniumUtility {
        	  */
            public void doubleclick(WebDriver driver, WebElement element){
         	   Actions action =new Actions(driver);
-       		   action.doubleClick();
+       		   action.doubleClick().perform();;
            }
-        
-         
-      public void TakeScreenshotofElemet(WebDriver driver, WebElement element) throws IOException{
-  		File temp = element.getScreenshotAs(OutputType.FILE);
-  		File ss=new File("./Screenshots/LogoPage.png");
-		FileHandler.copy(temp, ss);
- 	 }
+           
+           /*
+            *  This method is used for frame handling with index
+            *  @param driver
+            *  @param Frameindex 
+            */
+           
+           public void framHandleWithIndex(WebDriver driver, int Frameindex) {
+       		driver.switchTo().frame(Frameindex);
+      	 } 
+           /*
+            *  This method is used for frame handling with name or id
+            *  @param driver
+            *  @param Frameindex 
+            */
+           
+           public void framHandlewithNameOrID(WebDriver driver, String framenameorid) {
+       		driver.switchTo().frame(framenameorid);
+      	 } 
+           /*
+            *  This method is used for frame handling with name or id
+            *  @param driver
+            *  @param Frameindex 
+            */
+           
+           public void framHandleWithWebElement(WebDriver driver, WebElement framelement) {
+       		driver.switchTo().frame(framelement);
+      	 } 
+           
+           /*
+            *  This method is used for alert handling with Accept
+            *  @param driver     
+            */
+           public void acceptAlert(WebDriver driver) {
+          		driver.switchTo().alert().accept();
+         	 }
+           /*
+            *  This method is used to dismiss alert popup
+            *  @param driver     
+            */
+           public void dismissAlert(WebDriver driver) {
+          	 driver.switchTo().alert().dismiss();
+         	 }
+           
+           /*
+            *  This method is used to enter text in alert popup
+            *  @param driver     
+            */
+           public void enterAlertText(WebDriver driver, String Text ) {
+          		driver.switchTo().alert().sendKeys(Text);
+         	 }
+           
+           /*
+            *  This method is used to get alert text
+            *  @param driver     
+            */
+           public String getAlertText(WebDriver driver ) {
+         	 return driver.switchTo().alert().getText();
+        	 }
+           
+           /*
+            *  This method is used to switch from one window to other
+            *  @param driver 
+            *  @param windowId   
+            */
+           public void handleWindow(WebDriver driver, String windowId) {
+       			driver.switchTo().window(windowId);	
+        	 }
+           
+   
       
       /*
   	  * This method will takescreenshot of web page
   	  *  @param driver
   	  *  @param element
   	  */
-       public void TakeScreenshotOfWebPage(WebDriver driver, WebElement element) throws IOException{
+       public String capturScreenshot(WebDriver driver, String ScreenshotName) throws IOException{
     	   TakesScreenshot ts = (TakesScreenshot)driver;
-   		File temp = ts.getScreenshotAs(OutputType.FILE);
-   		File ss=new File("./Screenshots/LoginPage.png");
-   		FileHandler.copy(temp, ss);
+   		 File src = ts.getScreenshotAs(OutputType.FILE);
+   		File dst=new File(".\\Screenshots\\"+ScreenshotName+".png");
+   		FileHandler.copy(src, dst);
+   		
+   		return dst.getAbsolutePath(); //for extend report
   	 }
+
       
 
 	 

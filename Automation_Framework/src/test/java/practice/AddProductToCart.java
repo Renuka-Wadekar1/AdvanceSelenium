@@ -1,15 +1,8 @@
 package practice;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.Duration;
-import java.util.Properties;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,10 +11,9 @@ import org.openqa.selenium.edge.EdgeDriver;
 import GenericUtilities.FileUtility;
 import GenericUtilities.JavaUtility;
 import GenericUtilities.SeleniumUtility;
+import ObjectRepository.LoginPage;
 
 public class AddProductToCart {
-
-	private static final String String = null;
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
@@ -36,7 +28,7 @@ public class AddProductToCart {
 	    String PASSWORD = futil.readDataFromPropertyfile("password");
 				
 				//Read Data from excel file
-        String PRODUCTNAME = futil.readDataFromExcel("Product", 1, 2); 
+        String PRODUCTNAME = futil.readDataFromExcel("sheet1", 1, 2); 
 				
 				//Launch the browser
 				WebDriver driver = new EdgeDriver();
@@ -46,10 +38,14 @@ public class AddProductToCart {
 				//Load the URL
 				driver.get(URL);
 				
+				LoginPage lp=new LoginPage(driver);
+				lp.getUsernameText().sendKeys(USERNAME);
+				lp.getPasswordText().sendKeys(PASSWORD);
+				lp.getLoginBtn().click();
 				//Login to Application
-				driver.findElement(By.id("user-name")).sendKeys(USERNAME);
-				driver.findElement(By.id("password")).sendKeys(PASSWORD);
-				driver.findElement(By.id("login-button")).click();
+//				driver.findElement(By.id("user-name")).sendKeys(USERNAME);
+//				driver.findElement(By.id("password")).sendKeys(PASSWORD);
+//				driver.findElement(By.id("login-button")).click();
 				
 				//Click on a product - Tshirt - Dynamic xpath
 				WebElement ele = driver.findElement(By.xpath("//div[.='"+PRODUCTNAME+"']"));
